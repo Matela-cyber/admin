@@ -2,1062 +2,570 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Admin Dashboard | Lesotho Digital Innovation Summit</title>
-    <style>
-      /* Embedded CSS for Admin Dashboard */
-      :root {
-        --primary-color: #3498db;
-        --secondary-color: #2c3e50;
-        --accent-color: #e74c3c;
-        --success-color: #2ecc71;
-        --warning-color: #f39c12;
-        --light-color: #ecf0f1;
-        --dark-color: #34495e;
-        --sidebar-width: 250px;
-        --header-height: 60px;
-      }
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lesotho Digital Innovation Summit | SkyAlpha HD</title>
 
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+
+    <style>
+      :root {
+        --primary-color: #4a148c; /* Deep purple */
+        --secondary-color: #7b1fa2; /* Medium purple */
+        --accent-color: #e91e63; /* Pink accent */
+        --light-color: #f8f9fa;
+        --dark-color: #212529;
       }
 
       body {
-        background-color: #f5f6fa;
+        font-family: "Roboto", sans-serif;
         color: #333;
-        overflow-x: hidden;
+        line-height: 1.6;
+        padding-top: 70px; /* For fixed navbar */
       }
 
-      /* Admin Layout */
-      .admin-container {
-        display: flex;
-        min-height: 100vh;
+      /* Header Styles - Consistent with reference */
+      .main-header {
+        background-color: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       }
 
-      /* Sidebar Styles */
-      .admin-sidebar {
-        width: var(--sidebar-width);
-        background-color: var(--secondary-color);
-        color: white;
-        position: fixed;
-        height: 100vh;
-        transition: all 0.3s;
-        z-index: 1000;
+      .navbar-brand img {
+        height: 40px;
       }
 
-      .sidebar-header {
-        padding: 20px;
-        background-color: rgba(0, 0, 0, 0.2);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
+      .nav-link {
+        font-weight: 600;
+        color: var(--primary-color);
+        padding: 10px 15px !important;
       }
 
-      .sidebar-header h3 {
-        font-size: 1.2rem;
+      .nav-link:hover {
+        color: var(--secondary-color);
+      }
+
+      .dropdown-menu {
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 0;
+      }
+
+      .dropdown-item {
         font-weight: 500;
+        padding: 8px 20px;
       }
 
-      .sidebar-menu {
-        padding: 20px 0;
+      .dropdown-item:hover {
+        background-color: rgba(123, 31, 162, 0.1);
+        color: var(--secondary-color);
       }
 
-      .menu-category {
-        padding: 10px 20px;
-        color: rgba(255, 255, 255, 0.7);
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-top: 10px;
+      /* Active state for Contact */
+      .nav-link.active-contact {
+        position: relative;
+        color: var(--primary-color) !important;
       }
 
-      .menu-item {
-        padding: 12px 20px;
-        display: flex;
-        align-items: center;
-        color: rgba(255, 255, 255, 0.8);
-        transition: all 0.3s;
-        text-decoration: none;
-        border-left: 3px solid transparent;
+      .nav-link.active-contact .nav-link-inner {
+        position: relative;
+        display: inline-block;
       }
 
-      .menu-item:hover {
-        background-color: rgba(0, 0, 0, 0.1);
+      .nav-link.active-contact .nav-link-inner::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--secondary-color);
+        transform: scaleX(1);
+        transition: transform 0.3s ease;
+      }
+
+      .hero-section {
+        background: linear-gradient(
+            rgba(74, 20, 140, 0.8),
+            rgba(74, 20, 140, 0.8)
+          ),
+          url("https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80");
+        background-size: cover;
+        background-position: center;
         color: white;
-      }
-
-      .menu-item.active {
-        background-color: rgba(0, 0, 0, 0.2);
-        border-left-color: var(--primary-color);
-        color: white;
-      }
-
-      .menu-item i {
-        margin-right: 10px;
-        font-size: 1.1rem;
-        width: 20px;
+        padding: 100px 15px;
         text-align: center;
       }
 
-      .menu-item .badge {
-        margin-left: auto;
-        background-color: var(--accent-color);
-        color: white;
-        font-size: 0.7rem;
-        padding: 3px 6px;
-        border-radius: 10px;
-      }
-
-      /* Main Content Area */
-      .admin-main {
-        flex: 1;
-        margin-left: var(--sidebar-width);
-        transition: all 0.3s;
-      }
-
-      /* Header Styles */
-      .admin-header {
-        height: var(--header-height);
-        background-color: white;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 20px;
-        position: sticky;
-        top: 0;
-        z-index: 100;
-      }
-
-      .header-left {
-        display: flex;
-        align-items: center;
-      }
-
-      .toggle-sidebar {
-        background: none;
-        border: none;
-        font-size: 1.2rem;
-        color: var(--dark-color);
-        cursor: pointer;
-        margin-right: 15px;
-      }
-
-      .header-right {
-        display: flex;
-        align-items: center;
-      }
-
-      .header-icon {
-        position: relative;
-        margin-left: 15px;
-        color: var(--dark-color);
-        cursor: pointer;
-      }
-
-      .header-icon .badge {
-        position: absolute;
-        top: -5px;
-        right: -5px;
-        background-color: var(--accent-color);
-        color: white;
-        border-radius: 50%;
-        width: 18px;
-        height: 18px;
-        font-size: 0.6rem;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-
-      .user-profile {
-        display: flex;
-        align-items: center;
-        margin-left: 20px;
-        cursor: pointer;
-      }
-
-      .user-avatar {
-        width: 35px;
-        height: 35px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 10px;
-      }
-
-      .user-name {
-        font-weight: 500;
-        font-size: 0.9rem;
-      }
-
-      /* Content Area */
-      .content-container {
-        padding: 20px;
-      }
-
-      .page-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+      .hero-section h1 {
+        font-size: 3rem;
+        font-weight: 800;
         margin-bottom: 20px;
       }
 
-      .page-title h1 {
+      .hero-section .lead {
         font-size: 1.5rem;
-        color: var(--dark-color);
-        font-weight: 600;
+        max-width: 700px;
+        margin: 0 auto 30px;
       }
 
-      .page-title .breadcrumb {
-        display: flex;
-        list-style: none;
-        padding: 0;
-        margin-top: 5px;
-        font-size: 0.9rem;
-        color: var(--text-light);
+      .cta-section {
+        padding: 80px 15px;
+        background: linear-gradient(
+          135deg,
+          var(--primary-color),
+          var(--secondary-color)
+        );
+        color: white;
+        text-align: center;
       }
 
-      .breadcrumb-item {
-        margin-right: 5px;
+      .cta-section h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
       }
 
-      .breadcrumb-item:after {
-        content: "/";
-        margin-left: 5px;
-        color: var(--text-light);
-      }
-
-      .breadcrumb-item:last-child:after {
-        content: "";
-      }
-
-      .breadcrumb-item a {
-        color: var(--primary-color);
-        text-decoration: none;
-      }
-
-      /* Stats Cards */
-      .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-        gap: 20px;
+      .cta-section p {
+        font-size: 1.25rem;
         margin-bottom: 30px;
+        max-width: 700px;
+        margin-left: auto;
+        margin-right: auto;
       }
 
-      .stat-card {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        position: relative;
-        overflow: hidden;
+      .cta-section .form-control,
+      .cta-section .form-select {
+        min-width: 100%;
       }
 
-      .stat-card:after {
-        content: "";
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 4px;
-        height: 100%;
-      }
-
-      .stat-card.primary:after {
+      /* Footer */
+      .main-footer {
         background-color: var(--primary-color);
+        color: white;
+        padding: 60px 0 0;
       }
 
-      .stat-card.success:after {
-        background-color: var(--success-color);
+      .footer-logo {
+        height: 70px;
+        margin-bottom: 20px;
+        background-color: aliceblue;
+        border-radius: 20%;
       }
 
-      .stat-card.warning:after {
-        background-color: var(--warning-color);
+      .footer-about {
+        opacity: 0.7;
+        margin-bottom: 20px;
       }
 
-      .stat-card.danger:after {
-        background-color: var(--accent-color);
-      }
-
-      .stat-title {
-        font-size: 0.9rem;
-        color: var(--text-light);
-        margin-bottom: 5px;
-      }
-
-      .stat-value {
-        font-size: 1.8rem;
-        font-weight: 600;
-        margin-bottom: 10px;
-      }
-
-      .stat-change {
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-      }
-
-      .stat-change.positive {
-        color: var(--success-color);
-      }
-
-      .stat-change.negative {
-        color: var(--accent-color);
-      }
-
-      .stat-icon {
-        position: absolute;
-        top: 20px;
-        right: 20px;
-        font-size: 2rem;
-        opacity: 0.3;
-      }
-
-      /* Charts Section */
-      .charts-row {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        gap: 20px;
-        margin-bottom: 30px;
-      }
-
-      .chart-card {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-      }
-
-      .chart-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      .chart-title {
-        font-size: 1rem;
-        font-weight: 500;
-      }
-
-      .chart-actions {
-        display: flex;
-      }
-
-      .chart-action {
-        background: none;
-        border: none;
-        color: var(--text-light);
-        cursor: pointer;
-        margin-left: 10px;
-        font-size: 0.9rem;
-      }
-
-      .chart-container {
-        height: 250px;
-        position: relative;
-      }
-
-      /* Recent Activity */
-      .activity-card {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        margin-bottom: 30px;
-      }
-
-      .activity-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 15px;
-      }
-
-      .activity-title {
-        font-size: 1rem;
-        font-weight: 500;
-      }
-
-      .activity-filter {
-        display: flex;
-        align-items: center;
-      }
-
-      .filter-label {
-        font-size: 0.9rem;
-        margin-right: 10px;
-        color: var(--text-light);
-      }
-
-      .filter-select {
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        padding: 5px 10px;
-        font-size: 0.9rem;
-      }
-
-      .activity-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-
-      .activity-table th {
-        text-align: left;
-        padding: 10px;
-        font-size: 0.8rem;
-        color: var(--text-light);
-        border-bottom: 1px solid #eee;
-        font-weight: 500;
-      }
-
-      .activity-table td {
-        padding: 15px 10px;
-        border-bottom: 1px solid #eee;
-        font-size: 0.9rem;
-      }
-
-      .activity-user {
-        display: flex;
-        align-items: center;
-      }
-
-      .user-avatar-sm {
-        width: 30px;
-        height: 30px;
-        border-radius: 50%;
-        object-fit: cover;
-        margin-right: 10px;
-      }
-
-      .activity-action {
-        display: inline-block;
-        padding: 5px 10px;
-        border-radius: 4px;
-        font-size: 0.8rem;
-        font-weight: 500;
-      }
-
-      .action-upload {
-        background-color: rgba(52, 152, 219, 0.1);
-        color: var(--primary-color);
-      }
-
-      .action-edit {
-        background-color: rgba(46, 204, 113, 0.1);
-        color: var(--success-color);
-      }
-
-      .action-delete {
-        background-color: rgba(231, 76, 60, 0.1);
-        color: var(--accent-color);
-      }
-
-      .activity-time {
-        color: var(--text-light);
-        font-size: 0.8rem;
-      }
-
-      .view-all {
-        text-align: center;
-        margin-top: 15px;
-      }
-
-      .view-all a {
-        color: var(--primary-color);
-        text-decoration: none;
-        font-size: 0.9rem;
-      }
-
-      /* Quick Actions */
-      .quick-actions {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 20px;
-        margin-bottom: 30px;
-      }
-
-      .action-card {
-        background-color: white;
-        border-radius: 8px;
-        padding: 20px;
-        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
-        text-align: center;
-        cursor: pointer;
-        transition: all 0.3s;
-      }
-
-      .action-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-      }
-
-      .action-icon {
-        width: 50px;
-        height: 50px;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0 auto 15px;
-        font-size: 1.5rem;
+      .footer-links h5 {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 20px;
         color: white;
       }
 
-      .action-icon.primary {
-        background-color: var(--primary-color);
+      .footer-links ul {
+        list-style: none;
+        padding: 0;
       }
 
-      .action-icon.success {
-        background-color: var(--success-color);
+      .footer-links li {
+        margin-bottom: 10px;
       }
 
-      .action-icon.warning {
-        background-color: var(--warning-color);
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.7);
+        text-decoration: none;
+        transition: all 0.3s ease;
       }
 
-      .action-icon.danger {
-        background-color: var(--accent-color);
+      .footer-links a:hover {
+        color: var(--secondary-color);
+        padding-left: 5px;
       }
 
-      .action-title {
+      .social-links a {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: white;
+        border-radius: 50%;
+        text-align: center;
+        line-height: 40px;
+        margin-right: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .social-links a:hover {
+        background-color: var(--secondary-color);
+        transform: translateY(-3px);
+      }
+
+      .footer-bottom {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 20px 0;
+        margin-top: 40px;
+      }
+      .footer-bottom {
+        background-color: rgba(0, 0, 0, 0.2);
+        padding: 20px 0;
+        margin-top: 40px;
+      }
+
+      /* Default mobile padding (small screens) */
+      .footer-bottom .container {
+        padding-left: 15px;
+        padding-right: 15px;
+      }
+
+      /* Tablet (medium screens) */
+      @media (min-width: 768px) {
+        .footer-bottom .container {
+          padding-left: 30px;
+          padding-right: 30px;
+        }
+      }
+
+      /* Desktop (large screens) - BIGGER PADDING AS REQUESTED */
+      @media (min-width: 992px) {
+        .footer-bottom .container {
+          padding-left: 100px; /* Increased from 60px to 100px */
+          padding-right: 100px; /* Increased from 60px to 100px */
+        }
+      }
+
+      .copyright {
+        opacity: 0.7;
         font-size: 0.9rem;
-        font-weight: 500;
       }
 
-      /* Responsive Styles */
+      /* Responsive Adjustments */
       @media (max-width: 992px) {
-        .charts-row {
-          grid-template-columns: 1fr;
+        .hero-section h1 {
+          font-size: 2.5rem;
+        }
+
+        .hero-section .lead {
+          font-size: 1.25rem;
         }
       }
 
       @media (max-width: 768px) {
-        .admin-sidebar {
-          transform: translateX(-100%);
+        .hero-section {
+          padding: 80px 0;
         }
 
-        .admin-sidebar.active {
-          transform: translateX(0);
+        .hero-section h1 {
+          font-size: 2rem;
         }
 
-        .admin-main {
-          margin-left: 0;
+        .countdown-item {
+          margin: 0 5px;
         }
 
-        .admin-main.sidebar-active {
-          margin-left: var(--sidebar-width);
+        .countdown-number {
+          font-size: 2rem;
         }
       }
 
       @media (max-width: 576px) {
-        .quick-actions {
-          grid-template-columns: 1fr 1fr;
+        .hero-section {
+          padding: 60px 0;
         }
 
-        .header-right {
-          display: none;
+        .countdown-item {
+          margin: 0 3px;
         }
 
-        .user-profile {
-          margin-left: 0;
+        .countdown-number {
+          font-size: 1.5rem;
+        }
+
+        .countdown-label {
+          font-size: 0.7rem;
         }
       }
     </style>
-    <!-- Font Awesome for icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <!-- Chart.js for analytics -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
-    <!-- Admin Layout Container -->
-    <div class="admin-container">
-      <!-- Sidebar Navigation -->
-      <aside class="admin-sidebar">
-        <div class="sidebar-header">
-          <h3>SkyAlpha HD</h3>
-          <button class="toggle-sidebar" id="toggle-sidebar-sm">
-            <i class="fas fa-times"></i>
+    <!-- Header -->
+    <header class="main-header sticky-top">
+      <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <div class="container">
+          <a class="navbar-brand" href="#">
+            <img src="logo.jpeg" alt="SkyAlpha HD" style="max-height: 50px" />
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarNav"
+          >
+            <span class="navbar-toggler-icon"></span>
           </button>
+          <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto">
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  href="#"
+                  id="summitsDropdown"
+                  role="button"
+                  data-bs-toggle="dropdown"
+                >
+                  Summits
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">2023 Summit</a></li>
+                  <li><a class="dropdown-item" href="#">2022 Summit</a></li>
+                  <li><a class="dropdown-item" href="#">2021 Summit</a></li>
+                  <li><hr class="dropdown-divider" /></li>
+                  <li><a class="dropdown-item" href="#">All Summits</a></li>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#live">Live</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#sessions">Sessions</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#universities">Universities</a>
+              </li>
+              <li class="nav-item">
+                <a href="about.html" class="nav-link" href="#about">About</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#contact">Contact</a>
+              </li>
+            </ul>
+            <a href="index.html" class="btn btn-primary ms-lg-3 mt-3 mt-lg-0"
+              >Home</a
+            >
+          </div>
         </div>
+      </nav>
+    </header>
 
-        <div class="sidebar-menu">
-          <div class="menu-category">Main</div>
-          <a href="dashboard.html" class="menu-item active">
-            <i class="fas fa-tachometer-alt"></i>
-            Dashboard
-          </a>
-
-          <div class="menu-category">Content</div>
-          <a href="live-sessions.html" class="menu-item">
-            <i class="fas fa-video"></i>
-            Live Sessions
-          </a>
-          <a href="videos.html" class="menu-item">
-            <i class="fas fa-film"></i>
-            Video Library
-            <span class="badge">12</span>
-          </a>
-          <a href="schedule.html" class="menu-item">
-            <i class="fas fa-calendar-alt"></i>
-            Event Schedule
-          </a>
-          <a href="speakers.html" class="menu-item">
-            <i class="fas fa-users"></i>
-            Speakers
-          </a>
-          <a href="universities.html" class="menu-item">
-            <i class="fas fa-university"></i>
-            Universities
-          </a>
-
-          <div class="menu-category">System</div>
-          <a href="analytics.html" class="menu-item">
-            <i class="fas fa-chart-line"></i>
-            Analytics
-          </a>
-          <a href="users.html" class="menu-item">
-            <i class="fas fa-user-cog"></i>
-            User Management
-          </a>
-          <a href="settings.html" class="menu-item">
-            <i class="fas fa-cog"></i>
-            Settings
-          </a>
-        </div>
-      </aside>
-
-      <!-- Main Content Area -->
-      <main class="admin-main">
-        <!-- Header -->
-        <header class="admin-header">
-          <div class="header-left">
-            <button class="toggle-sidebar" id="toggle-sidebar">
-              <i class="fas fa-bars"></i>
-            </button>
-            <div class="page-title">
-              <h1>Dashboard</h1>
-            </div>
-          </div>
-
-          <div class="header-right">
-            <div class="header-icon">
-              <i class="fas fa-bell"></i>
-              <span class="badge">3</span>
-            </div>
-            <div class="header-icon">
-              <i class="fas fa-envelope"></i>
-              <span class="badge">5</span>
-            </div>
-            <div class="user-profile">
-              <img
-                src="https://via.placeholder.com/150"
-                alt="Admin User"
-                class="user-avatar"
-              />
-              <span class="user-name">Admin User</span>
-              <i class="fas fa-chevron-down ms-2" style="font-size: 0.8rem"></i>
-            </div>
-          </div>
-        </header>
-
-        <!-- Content Container -->
-        <div class="content-container">
-          <!-- Stats Cards -->
-          <div class="stats-grid">
-            <div class="stat-card primary">
-              <div class="stat-title">Live Sessions</div>
-              <div class="stat-value">3</div>
-              <div class="stat-change positive">
-                <i class="fas fa-arrow-up"></i> 1 today
-              </div>
-              <div class="stat-icon">
-                <i class="fas fa-video"></i>
-              </div>
-            </div>
-
-            <div class="stat-card success">
-              <div class="stat-title">Total Videos</div>
-              <div class="stat-value">124</div>
-              <div class="stat-change positive">
-                <i class="fas fa-arrow-up"></i> 12 this week
-              </div>
-              <div class="stat-icon">
-                <i class="fas fa-film"></i>
-              </div>
-            </div>
-
-            <div class="stat-card warning">
-              <div class="stat-title">Registered Users</div>
-              <div class="stat-value">1,842</div>
-              <div class="stat-change positive">
-                <i class="fas fa-arrow-up"></i> 56 today
-              </div>
-              <div class="stat-icon">
-                <i class="fas fa-users"></i>
-              </div>
-            </div>
-
-            <div class="stat-card danger">
-              <div class="stat-title">Active Viewers</div>
-              <div class="stat-value">328</div>
-              <div class="stat-change negative">
-                <i class="fas fa-arrow-down"></i> 12% from yesterday
-              </div>
-              <div class="stat-icon">
-                <i class="fas fa-eye"></i>
-              </div>
-            </div>
-          </div>
-
-          <!-- Charts Row -->
-          <div class="charts-row">
-            <div class="chart-card">
-              <div class="chart-header">
-                <div class="chart-title">Viewership Analytics</div>
-                <div class="chart-actions">
-                  <button class="chart-action">Day</button>
-                  <button class="chart-action active">Week</button>
-                  <button class="chart-action">Month</button>
+    <!-- CTA Section -->
+    <section class="cta-section">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-8">
+            <h2>Register for the Summit</h2>
+            <form class="mt-4" novalidate>
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="First Name"
+                    required
+                  />
+                </div>
+                <div class="col-md-6">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Last Name"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <input
+                    type="email"
+                    class="form-control"
+                    placeholder="Email"
+                    required
+                  />
+                </div>
+                <div class="col-12">
+                  <select class="form-select" required>
+                    <option selected disabled>Select Registration Type</option>
+                    <option>University Representative</option>
+                    <option>Student</option>
+                    <option>Industry Professional</option>
+                    <option>Government Official</option>
+                    <option>Press/Media</option>
+                  </select>
+                </div>
+                <div class="col-12">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      id="termsCheck"
+                      required
+                    />
+                    <label class="form-check-label" for="termsCheck">
+                      I agree to the
+                      <a href="#" class="text-white">Terms & Conditions</a>
+                    </label>
+                  </div>
+                </div>
+                <div class="col-12 mt-4">
+                  <button type="submit" class="btn btn-light btn-lg w-100">
+                    Complete Registration
+                  </button>
                 </div>
               </div>
-              <div class="chart-container">
-                <canvas id="viewsChart"></canvas>
-              </div>
-            </div>
-
-            <div class="chart-card">
-              <div class="chart-header">
-                <div class="chart-title">Traffic Sources</div>
-              </div>
-              <div class="chart-container">
-                <canvas id="trafficChart"></canvas>
-              </div>
-            </div>
+            </form>
           </div>
-
-          <!-- Quick Actions -->
-          <div class="quick-actions">
-            <div class="action-card">
-              <div class="action-icon primary">
-                <i class="fas fa-plus"></i>
-              </div>
-              <div class="action-title">Add New Session</div>
-            </div>
-
-            <div class="action-card">
-              <div class="action-icon success">
-                <i class="fas fa-upload"></i>
-              </div>
-              <div class="action-title">Upload Video</div>
-            </div>
-
-            <div class="action-card">
-              <div class="action-icon warning">
-                <i class="fas fa-calendar-plus"></i>
-              </div>
-              <div class="action-title">Create Event</div>
-            </div>
-
-            <div class="action-card">
-              <div class="action-icon danger">
-                <i class="fas fa-user-plus"></i>
-              </div>
-              <div class="action-title">Add Speaker</div>
-            </div>
-          </div>
-
-          <!-- Recent Activity -->
-          <div class="activity-card">
-            <div class="activity-header">
-              <div class="activity-title">Recent Activity</div>
-              <div class="activity-filter">
-                <span class="filter-label">Filter:</span>
-                <select class="filter-select">
-                  <option>All Activity</option>
-                  <option>Uploads</option>
-                  <option>Edits</option>
-                  <option>System</option>
-                </select>
-              </div>
-            </div>
-
-            <table class="activity-table">
-              <thead>
-                <tr>
-                  <th>User</th>
-                  <th>Action</th>
-                  <th>Item</th>
-                  <th>Time</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>
-                    <div class="activity-user">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="User"
-                        class="user-avatar-sm"
-                      />
-                      <span>John Doe</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="activity-action action-upload">Upload</span>
-                  </td>
-                  <td>Keynote Session Video</td>
-                  <td class="activity-time">10 minutes ago</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="activity-user">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="User"
-                        class="user-avatar-sm"
-                      />
-                      <span>Jane Smith</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="activity-action action-edit">Edit</span>
-                  </td>
-                  <td>Speaker Profile</td>
-                  <td class="activity-time">25 minutes ago</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="activity-user">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="User"
-                        class="user-avatar-sm"
-                      />
-                      <span>System</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="activity-action action-edit">Update</span>
-                  </td>
-                  <td>System Settings</td>
-                  <td class="activity-time">1 hour ago</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="activity-user">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="User"
-                        class="user-avatar-sm"
-                      />
-                      <span>Robert Johnson</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="activity-action action-delete">Delete</span>
-                  </td>
-                  <td>Old Video File</td>
-                  <td class="activity-time">2 hours ago</td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="activity-user">
-                      <img
-                        src="https://via.placeholder.com/150"
-                        alt="User"
-                        class="user-avatar-sm"
-                      />
-                      <span>Sarah Williams</span>
-                    </div>
-                  </td>
-                  <td>
-                    <span class="activity-action action-upload">Upload</span>
-                  </td>
-                  <td>Workshop Materials</td>
-                  <td class="activity-time">3 hours ago</td>
-                </tr>
-              </tbody>
-            </table>
-
-            <div class="view-all">
-              <a href="#"
-                >View All Activity <i class="fas fa-arrow-right"></i
+        </div>
+      </div>
+    </section>
+    <!-- Footer - Updated with proper links -->
+    <footer class="main-footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4 mb-5 mb-lg-0">
+            <a
+              href="https://www.skyalphahd.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <img
+                src="images/logos/skyalpha.png"
+                alt="SkyAlpha HD"
+                class="footer-logo"
+              />
+            </a>
+            <p class="footer-about">
+              Aligned with Lesotho's National Digital Transformation Strategy,
+              the Digital Innovators Summit is a movement toward creating a
+              digitally empowered society.
+            </p>
+            <div class="social-links">
+              <a
+                href="https://www.facebook.com/DigitalInnovatorsSummitLesotho"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-facebook-f"></i
+              ></a>
+              <a
+                href="https://twitter.com/DIS_Lesotho2025"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-twitter"></i
+              ></a>
+              <a
+                href="https://www.instagram.com/digitalinnovatorslesotho"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-instagram"></i
+              ></a>
+              <a
+                href="https://www.linkedin.com/company/digital-innovators-summit-lesotho"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-linkedin-in"></i
+              ></a>
+              <a
+                href="https://www.youtube.com/c/DigitalInnovatorsSummitLesotho"
+                target="_blank"
+                rel="noopener noreferrer"
+                ><i class="fab fa-youtube"></i
               ></a>
             </div>
           </div>
+
+          <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            <div class="footer-links">
+              <h5>Summits</h5>
+              <ul>
+                <li><a href="summit2023.html">2023 Summit</a></li>
+                <li><a href="summit2022.html">2022 Summit</a></li>
+                <li><a href="summit2021.html">2021 Summit</a></li>
+                <li><a href="past-summits.html">All Summits</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            <div class="footer-links">
+              <h5>Event</h5>
+              <ul>
+                <li><a href="schedule.html">Schedule</a></li>
+                <li><a href="speakers.html">Speakers</a></li>
+                <li><a href="sessions.html">Sessions</a></li>
+                <li><a href="live.html">Live Stream</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+            <div class="footer-links">
+              <h5>Partners</h5>
+              <ul>
+                <li><a href="universities.html">Universities</a></li>
+                <li><a href="partners.html">Organizations</a></li>
+                <li><a href="sponsors.html">Sponsors</a></li>
+                <li><a href="collaborators.html">Collaborators</a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-4">
+            <div class="footer-links">
+              <h5>Contact</h5>
+              <ul>
+                <li><a href="contact.html">Contact Us</a></li>
+                <li><a href="team.html">Our Team</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="faq.html">FAQs</a></li>
+              </ul>
+            </div>
+          </div>
         </div>
-      </main>
-    </div>
 
-    <!-- Embedded JavaScript -->
+        <div class="footer-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <p class="copyright mb-3 mb-md-0">
+                  © 2025 Digital Innovators Summit. All rights reserved.
+                </p>
+              </div>
+              <div class="col-md-6 text-md-end">
+                <a href="privacy.html" class="text-white-50 me-3"
+                  >Privacy Policy</a
+                >
+                <a href="terms.html" class="text-white-50">Terms of Service</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-      // DOM Elements
-      const toggleSidebar = document.getElementById("toggle-sidebar");
-      const toggleSidebarSm = document.getElementById("toggle-sidebar-sm");
-      const sidebar = document.querySelector(".admin-sidebar");
-      const mainContent = document.querySelector(".admin-main");
+      // Close mobile menu when clicking outside
+      document.addEventListener("click", function (event) {
+        const navbarCollapse = document.getElementById("navbarNav");
+        const navbarToggler = document.querySelector(".navbar-toggler");
 
-      // Toggle Sidebar
-      toggleSidebar.addEventListener("click", function () {
-        sidebar.classList.toggle("active");
-        mainContent.classList.toggle("sidebar-active");
-      });
-
-      toggleSidebarSm.addEventListener("click", function () {
-        sidebar.classList.toggle("active");
-        mainContent.classList.toggle("sidebar-active");
-      });
-
-      // Initialize Charts
-      document.addEventListener("DOMContentLoaded", function () {
-        // Views Chart
-        const viewsCtx = document.getElementById("viewsChart").getContext("2d");
-        const viewsChart = new Chart(viewsCtx, {
-          type: "line",
-          data: {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            datasets: [
-              {
-                label: "Live Viewers",
-                data: [120, 190, 170, 220, 180, 150, 210],
-                borderColor: "#3498db",
-                backgroundColor: "rgba(52, 152, 219, 0.1)",
-                borderWidth: 2,
-                tension: 0.4,
-                fill: true,
-              },
-              {
-                label: "Video Views",
-                data: [80, 120, 140, 170, 150, 110, 160],
-                borderColor: "#2ecc71",
-                backgroundColor: "rgba(46, 204, 113, 0.1)",
-                borderWidth: 2,
-                tension: 0.4,
-                fill: true,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: "top",
-              },
-            },
-            scales: {
-              y: {
-                beginAtZero: true,
-              },
-            },
-          },
-        });
-
-        // Traffic Chart
-        const trafficCtx = document
-          .getElementById("trafficChart")
-          .getContext("2d");
-        const trafficChart = new Chart(trafficCtx, {
-          type: "doughnut",
-          data: {
-            labels: ["Direct", "Social Media", "Email", "Referral", "Search"],
-            datasets: [
-              {
-                data: [35, 25, 20, 10, 10],
-                backgroundColor: [
-                  "#3498db",
-                  "#e74c3c",
-                  "#2ecc71",
-                  "#f39c12",
-                  "#9b59b6",
-                ],
-                borderWidth: 0,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                position: "right",
-              },
-            },
-            cutout: "70%",
-          },
-        });
-
-        // Chart filter buttons
-        const chartActions = document.querySelectorAll(".chart-action");
-        chartActions.forEach((button) => {
-          button.addEventListener("click", function () {
-            chartActions.forEach((btn) => btn.classList.remove("active"));
-            this.classList.add("active");
-
-            // In a real app, this would update the chart data
-            // For demo, we'll just animate the chart
-            viewsChart.update();
+        if (
+          navbarCollapse.classList.contains("show") &&
+          !event.target.closest(".navbar") &&
+          !event.target.classList.contains("navbar-toggler")
+        ) {
+          const bsCollapse = new bootstrap.Collapse(navbarCollapse, {
+            toggle: false,
           });
-        });
-      });
+          bsCollapse.hide();
 
-      // Simulate real-time data updates
-      function updateStats() {
-        // In a real app, this would fetch data from an API
-        const activeViewers = document.querySelector(
-          ".stat-card.danger .stat-value"
-        );
-        let viewers = parseInt(activeViewers.textContent);
-        viewers += Math.floor(Math.random() * 10) - 3; // Random change
-        viewers = Math.max(0, viewers); // Ensure not negative
-        activeViewers.textContent = viewers;
-
-        // Update the change indicator
-        const changeElement = document.querySelector(
-          ".stat-card.danger .stat-change"
-        );
-        if (viewers > 328) {
-          changeElement.classList.remove("negative");
-          changeElement.classList.add("positive");
-          changeElement.innerHTML =
-            '<i class="fas fa-arrow-up"></i> ' +
-            (viewers - 328) +
-            " from last hour";
-        } else if (viewers < 328) {
-          changeElement.classList.remove("positive");
-          changeElement.classList.add("negative");
-          changeElement.innerHTML =
-            '<i class="fas fa-arrow-down"></i> ' +
-            (328 - viewers) +
-            " from last hour";
-        } else {
-          changeElement.classList.remove("positive", "negative");
-          changeElement.innerHTML = "No change from last hour";
+          navbarToggler.setAttribute("aria-expanded", "false");
         }
-      }
-
-      // Update stats every 5 seconds
-      setInterval(updateStats, 5000);
-
-      // Simulate notification count update
-      function updateNotifications() {
-        const notificationBadge = document.querySelector(".header-icon .badge");
-        const currentCount = parseInt(notificationBadge.textContent);
-        const newCount = Math.max(
-          0,
-          Math.min(5, currentCount + Math.floor(Math.random() * 3) - 1)
-        );
-        notificationBadge.textContent = newCount;
-      }
-
-      // Update notifications every 10 seconds
-      setInterval(updateNotifications, 10000);
+      });
     </script>
   </body>
 </html>
